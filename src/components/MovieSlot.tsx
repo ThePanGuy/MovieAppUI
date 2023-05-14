@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {get} from "../utilities/fetch";
 
 interface Props {
     title?: string
@@ -20,13 +19,10 @@ const MovieSlot: React.FunctionComponent<Props> = ({title,user,
     useEffect(() => {
         const currentDate = new Date();
         const uploadDate = new Date(creationDate || "");
-        const differenceInTime = currentDate.getTime() - uploadDate.getTime();
-        setPassedDays(differenceInTime / (1000 * 3600 * 24))
+        let differenceInTime = currentDate.getTime() - uploadDate.getTime();
+        differenceInTime = Math.floor(differenceInTime / (1000 * 3600 * 24));
+        setPassedDays(differenceInTime)
     }, [creationDate])
-
-    const tryToGet = () => {
-        get('/user/all');
-    }
 
     return (
         <React.Fragment>
@@ -35,7 +31,6 @@ const MovieSlot: React.FunctionComponent<Props> = ({title,user,
                 <span>Posted by {user} {passedDays} day(s) ago</span>
                 <p>{description}</p>
                 <p>{likes} likes | {hates} hates</p>
-                <a onClick={tryToGet}>Let's see</a>
             </div>
         </React.Fragment>
     )

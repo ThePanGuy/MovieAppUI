@@ -14,7 +14,7 @@ export interface PagingRequest {
 }
 
 export interface PagingResponse<T> {
-    items: any[],
+    content: T[],
     totalItems: number,
     hasNextPage: boolean
 }
@@ -79,7 +79,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
         setPages(undefined);
     }
 
-    const execute = (url: string) => {
+    const execute = () => {
         const copy: PagingRequest = JSON.parse(JSON.stringify(pageRequest));
         copy.filter = undefined;
         copy.page = 0;
@@ -126,7 +126,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
 
     const pageExceeds = (response: PagingResponse<T>): number => {
         if (response.totalItems > 0) {
-            if (response.items === undefined || response.items.length <= 0) {
+            if (response.content === undefined || response.content.length <= 0) {
                 let newNumberOfPages = Math.ceil(response.totalItems / pageSize);
                 if (newNumberOfPages > 0) {
                     return newNumberOfPages - 1;
@@ -155,7 +155,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
     };
 
     const hasItems = () => {
-        return !!response && !!response.items && response.items.length > 0;
+        return !!response && !!response.content && response.content.length > 0;
     };
 
     const filter = (filter: SingleValueFilterItem) => {
@@ -203,7 +203,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
         const index = arr.findIndex(i => i.name === name);
         if (index > -1) return arr[index];
         else {
-            const item = <FILTER>{name: name};
+            const item = {name: name} as FILTER;
             arr.push(item);
             return item;
         }

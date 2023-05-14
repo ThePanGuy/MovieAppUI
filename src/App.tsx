@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import MovieSlot from "./components/MovieSlot";
 import Header from "./components/Header";
 import Movies from "./components/Movies";
 
@@ -12,7 +11,6 @@ function App() {
             </header>
             <div>
                 <Movies/>
-                <MovieSlot/>
             </div>
         </div>
     );
