@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import {User} from "../models/model";
 
 interface Props {
     title?: string
-    user?: string
+    uploadedBy?: User
     description?: string
     creationDate?: string
     likes?: number
     hates?: number
 }
 
-const MovieSlot: React.FunctionComponent<Props> = ({title,user,
+const MovieSlot: React.FunctionComponent<Props> = ({title, uploadedBy,
                                                        description, creationDate,
                                                        likes, hates}) => {
 
@@ -28,7 +29,7 @@ const MovieSlot: React.FunctionComponent<Props> = ({title,user,
         <React.Fragment>
             <div className={'movie-card'}>
                 <h2>{title}</h2>
-                <span>Posted by {user} {passedDays} day(s) ago</span>
+                <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
                 <p>{description}</p>
                 <p>{likes} likes | {hates} hates</p>
             </div>
