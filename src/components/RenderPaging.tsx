@@ -67,17 +67,17 @@ const RenderPaging: React.FunctionComponent<Props> = ({
                 <div className="panel no-m-bottom">
                     <nav className="pagination is-centered" role="navigation" aria-label="pagination">
 
-                        <a className={'pagination-previous button' + (isFirstPage(currentPage) ? ' is-static' : '')}
-                           onClick={() => goToPrevPage()}>Previous</a>
+                        <button className={'pagination-previous button' + (isFirstPage(currentPage) ? ' is-static' : '')}
+                           onClick={() => goToPrevPage()}>Previous</button>
 
-                        <a className={'pagination-next button' + (isLastPage(currentPage) ? ' is-static' : '')}
-                           onClick={() => goToNextPage()}>Next page</a>
+                        <button className={'pagination-next button' + (isLastPage(currentPage) ? ' is-static' : '')}
+                           onClick={() => goToNextPage()}>Next page</button>
 
                         <ul className="pagination-list">
                             <li>
-                                <a className={'pagination-link ' + (isFirstPage(currentPage) ? ' is-current' : '')}
+                                <button className={'pagination-link ' + (isFirstPage(currentPage) ? ' is-current' : '')}
                                    onClick={() => goToSpecificPage(0)}
-                                   aria-label="Goto page 1">1</a>
+                                   aria-label="Goto page 1">1</button>
                             </li>
 
                             {showEllipsis() && <li><span className="pagination-ellipsis">&hellip;</span></li>}
@@ -86,10 +86,10 @@ const RenderPaging: React.FunctionComponent<Props> = ({
                                 if (showPageNumber(page))
                                     return (
                                         <li key={'p_' + page.index}>
-                                            <a className={'pagination-link' + (isCurrentPage(page) ? ' is-current' : '')}
+                                            <button className={'pagination-link' + (isCurrentPage(page) ? ' is-current' : '')}
                                                onClick={() => goToSpecificPage(page.index)}
                                                aria-label={'Page ' + page.label}
-                                               aria-current="page">{page.label}</a>
+                                               aria-current="page">{page.label}</button>
                                         </li>)
                             })}
 
@@ -97,9 +97,9 @@ const RenderPaging: React.FunctionComponent<Props> = ({
 
                             {showLastpage() &&
                                 <li>
-                                    <a className={'pagination-link ' + (isLastPage(currentPage) ? ' is-current' : '')}
+                                    <button className={'pagination-link ' + (isLastPage(currentPage) ? ' is-current' : '')}
                                        onClick={() => goToSpecificPage(pages.length - 1)}
-                                       aria-label={'Goto page ' + pages.length}>{pages.length}</a>
+                                       aria-label={'Goto page ' + pages.length}>{pages.length}</button>
                                 </li>
                             }
                         </ul>
