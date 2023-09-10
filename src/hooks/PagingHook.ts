@@ -15,7 +15,7 @@ export interface PagingRequest {
 
 export interface PagingResponse<T> {
     content: T[],
-    totalItems: number,
+    totalElements: number,
     hasNextPage: boolean
 }
 
@@ -96,7 +96,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
             post(url, pageRequest)
                 .then((response: PagingResponse<T>) => {
                     setResponse(response);
-                    setPages(initPages(response.totalItems));
+                    setPages(initPages(response.totalElements));
                     if (onPageExceedingLimits) {
                         let prevPage = pageExceeds(response);
                         if (prevPage >= 0) {
@@ -125,9 +125,9 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
     };
 
     const pageExceeds = (response: PagingResponse<T>): number => {
-        if (response.totalItems > 0) {
+        if (response.totalElements > 0) {
             if (response.content === undefined || response.content.length <= 0) {
-                let newNumberOfPages = Math.ceil(response.totalItems / pageSize);
+                let newNumberOfPages = Math.ceil(response.totalElements / pageSize);
                 if (newNumberOfPages > 0) {
                     return newNumberOfPages - 1;
                 }
@@ -263,7 +263,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
         hasItems: hasItems(),
         reload: reload,
         execute: execute,
-        totalItems: !!response ? response.totalItems : 0,
+        totalItems: !!response ? response.totalElements : 0,
         pageRequest: pageRequest,
         findFilter: (name: string) => findFilter(name)
     };
