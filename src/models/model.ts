@@ -12,3 +12,8 @@ export interface User {
     id: string,
     username: string
 }
+
+export interface MovieReactions {
+    numberOfLikes: number,
+    numberOfHates: number
+}

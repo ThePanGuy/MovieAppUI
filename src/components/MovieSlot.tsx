@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {User} from "../models/model";
+import {MovieReactions, User} from "../models/model";
+import {addLike} from "../operations/operation";
 
 interface Props {
+    id?: string,
     title?: string
     uploadedBy?: User
     description?: string
@@ -10,12 +12,14 @@ interface Props {
     hates?: number
 }
 
-const MovieSlot: React.FunctionComponent<Props> = ({title, uploadedBy,
+const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
                                                        description, creationDate,
                                                        likes, hates}) => {
 
 
     const [passedDays, setPassedDays] = useState<number>(0)
+    const [numberOfLikes, setNumberOfLikes] = useState(likes);
+    const [numberOfHates, setNumberOfHates] = useState(hates);
 
     useEffect(() => {
         const currentDate = new Date();
@@ -25,13 +29,34 @@ const MovieSlot: React.FunctionComponent<Props> = ({title, uploadedBy,
         setPassedDays(differenceInTime)
     }, [creationDate])
 
+    const updateReactions = (movieReactions: MovieReactions) => {
+        setNumberOfLikes(movieReactions.numberOfLikes);
+        setNumberOfHates(movieReactions.numberOfHates);
+    }
+
+    const likeMovie = () => {
+        if (id) {
+            addLike(id)
+                .then(response => {
+                    debugger
+                    updateReactions(response)
+                })
+                .catch(error => alert(error));
+        }
+    }
+
+    const hateMovie = () => {
+
+    }
+
+
     return (
         <React.Fragment>
             <div className={'movie-card'}>
                 <h2>{title}</h2>
                 <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
                 <p>{description}</p>
-                <p>{likes} likes | {hates} hates</p>
+                <p>{numberOfLikes} <a onClick={likeMovie}>likes</a> | {numberOfHates} <a onClick={hateMovie}>hates</a></p>
             </div>
         </React.Fragment>
     )
