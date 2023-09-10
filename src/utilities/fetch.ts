@@ -11,7 +11,7 @@ export function get<T>(uri: string): Promise<T | any> {
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
-                return resolve(response)
+                return resolve(response.json)
             }
             // extract the error from the servers json
             return reject(response.json.message);
