@@ -11,7 +11,7 @@ export function get<T>(uri: string): Promise<T | any> {
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
-                return resolve(response)
+                return resolve(response.json)
             }
             // extract the error from the servers json
             return reject(response.json.message);
@@ -38,11 +38,10 @@ function headers(method: string, data?: any): RequestInit {
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'omit', // include, same-origin, *omit
         headers: {
-            'content-type': 'application/json',
-            // 'X-Token': getCookie() || 'no-cookie'
+            'content-type': 'application/json'
         },
         method: method, // *GET, POST, PUT, DELETE, etc.
-        mode: 'no-cors', // no-cors, cors, *same-origin
+        mode: 'cors', // no-cors, cors, *same-origin
         redirect: 'follow', // manual, *follow, error
         referrer: 'client', // *client, no-referrer
     }
