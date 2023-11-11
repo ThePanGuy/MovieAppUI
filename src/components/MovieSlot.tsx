@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MovieReactions, User} from "../models/model";
-import {addLike} from "../operations/operation";
+import {addHate, addLike} from "../operations/operation";
 
 interface Props {
     id?: string,
@@ -46,7 +46,14 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
     }
 
     const hateMovie = () => {
-
+        if (id) {
+            addHate(id)
+                .then(response => {
+                    debugger
+                    updateReactions(response)
+                })
+                .catch(error => alert(error));
+        }
     }
 
 
