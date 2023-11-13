@@ -1,8 +1,11 @@
 import {post} from "../utilities/fetch";
 import {login, loginHandler} from "../operations/authOperation";
 import React, {ChangeEvent, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Home() {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -10,7 +13,8 @@ export default function Home() {
 
     const submit = (e:  React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        loginHandler(formData.username, formData.password);
+        loginHandler(formData.username, formData.password)
+            .then(() => navigate('/movies'));
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
