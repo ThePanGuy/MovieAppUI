@@ -1,9 +1,14 @@
 import {Constants} from "./constants";
+import {login} from "../operations/authOperation";
 
 interface CustomResponse {
     status: number,
     ok: boolean,
     json: { message: String }
+}
+
+function getAuthToken(): string | null {
+    return localStorage.getItem('access_token');
 }
 
 export function get<T>(uri: string): Promise<T | any> {
@@ -38,12 +43,13 @@ function headers(method: string, data?: any): RequestInit {
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'omit', // include, same-origin, *omit
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            Authorization: getAuthToken() ? `Bearer: ${getAuthToken()}` : ''
         },
         method: method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
         redirect: 'follow', // manual, *follow, error
-        referrer: 'client', // *client, no-referrer
+        referrer: 'client', // *client, no-referrer,
     }
 }
 

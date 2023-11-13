@@ -38,7 +38,6 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
         if (id) {
             addLike(id)
                 .then(response => {
-                    debugger
                     updateReactions(response)
                 })
                 .catch(error => alert(error));
@@ -49,7 +48,6 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
         if (id) {
             addHate(id)
                 .then(response => {
-                    debugger
                     updateReactions(response)
                 })
                 .catch(error => alert(error));
