@@ -44,7 +44,7 @@ function headers(method: string, data?: any): RequestInit {
         credentials: 'omit', // include, same-origin, *omit
         headers: {
             'content-type': 'application/json',
-            Authorization: getAuthToken() ? `Bearer: ${getAuthToken()}` : ''
+            Authorization: getAuthToken() ? `Bearer ${getAuthToken()}` : ''
         },
         method: method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin

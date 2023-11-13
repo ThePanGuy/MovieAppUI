@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AppRouter from "./components/AppRouter";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
-import {AuthProvider} from "./components/AutoContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,20 +15,18 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Home/>,
-        errorElement: <ErrorPage/>,
-        children: [
-            {
-                path: "movies/",
-                element: <App/>
-
-            }
-        ]
+        errorElement: <ErrorPage/>
+    },
+    {
+        path: "/movies",
+        element: <App/>
     }
-]);
+])
+;
 
 root.render(
     <React.StrictMode>
-            <RouterProvider router={router}/>
+        <RouterProvider router={router}/>
     </React.StrictMode>
 );
 
