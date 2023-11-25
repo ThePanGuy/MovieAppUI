@@ -1,5 +1,4 @@
 import {Constants} from "./constants";
-import {login} from "../operations/authOperation";
 
 interface CustomResponse {
     status: number,
