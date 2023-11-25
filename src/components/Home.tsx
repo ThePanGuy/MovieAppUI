@@ -14,7 +14,6 @@ export default function Home() {
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        debugger
         try {
             await login(formData.username, formData.password);
         } catch {
@@ -22,7 +21,7 @@ export default function Home() {
             return;
         }
         console.log("moved on anyway")
-        // navigate('/movies');
+        navigate('/movies');
     }
 
 
