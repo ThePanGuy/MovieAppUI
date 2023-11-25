@@ -1,4 +1,5 @@
 import {Constants} from "../utilities/constants";
+import {post} from "../utilities/fetch";
 
 export const login = async (username: string, password: string) => {
     const response = await fetch(`${Constants.getApiUrl()}/login`, {
@@ -6,7 +7,7 @@ export const login = async (username: string, password: string) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: username, password: password }),
+        body: JSON.stringify({username: username, password: password}),
     });
     if (!response.ok) {
         throw new Error('Login failed');
@@ -14,6 +15,18 @@ export const login = async (username: string, password: string) => {
 
     return await response.json();
 };
+
+
+export const register = async (username: string, password: string) => {
+    debugger
+    try {
+        const response = await post('/user/save', {username, password});
+        return response.data;
+    } catch (error) {
+        throw new Error('Registration failed');
+    }
+}
+
 
 export const loginHandler = async (username: string, password: string) => {
     try {
@@ -32,7 +45,7 @@ export const refreshToken = async (refreshToken: string | null) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refreshToken }),
+        body: JSON.stringify({refreshToken}),
     });
 
     if (!response.ok) {

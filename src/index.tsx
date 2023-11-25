@@ -7,6 +7,8 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
 import {AuthProvider} from "./components/AuthContext";
+import {SignUpPage} from "./components/SignUpPage";
+import {NoAccessPage} from "./components/NoAccessPage";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
         {
             path: "/movies",
             element: <MoviesPage/>
+        },
+        {
+            path: "/sign-up",
+            element: <SignUpPage/>
+        },
+        {
+            path: "/error-no-access",
+            element: <NoAccessPage/>
         }
     ])
 ;

@@ -62,9 +62,8 @@ function parseResponse(response: Response): Promise<CustomResponse> {
                 } else if (response.status === 404) {
                     document.location.href = '/error-not-found'
                 } else if (response.status === 401) {
-                    // deleteCookie();
                     if (!(window.location.href.indexOf("login") > -1)) {
-                        document.location.href = '/login'
+                        document.location.href = '/'
                     }
                 } else if (response.status === 426) {
                     resolve({
