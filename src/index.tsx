@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import MoviesPage from './components/MoviesPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
-import {AuthProvider} from "./components/AutoContext";
+import {AuthProvider} from "./components/AuthContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         },
         {
             path: "/movies",
-            element: <App/>
+            element: <MoviesPage/>
         }
     ])
 ;

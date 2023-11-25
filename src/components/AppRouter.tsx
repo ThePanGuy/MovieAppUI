@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter} from "react-router-dom";
-import {AuthProvider} from "./AutoContext";
+import {AuthProvider} from "./AuthContext";
 
 
 const AppRouter: React.FunctionComponent = () => {

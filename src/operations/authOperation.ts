@@ -19,7 +19,6 @@ export const loginHandler = async (username: string, password: string) => {
     try {
         const data = await login(username, password);
         // setToken(data.token);
-        debugger
         localStorage.setItem('access_token', data.access_token);
     } catch (error) {
         console.error('Login error:', error);

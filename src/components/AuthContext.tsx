@@ -1,6 +1,5 @@
 import React, {createContext, ReactNode, useContext, useState} from 'react';
 import {login, refreshToken} from "../operations/authOperation";
-import * as async_hooks from "async_hooks";
 
 interface AuthContextProps {
     access_token: string | null;
@@ -28,8 +27,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setAccess_token(data.access_token);
             localStorage.setItem('access_token', data.access_token);
         } catch (error) {
-            console.error('Login error:', error);
             //todo: add proper error handling
+            console.error('Login error:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }
@@ -42,8 +42,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setAccess_token(data.access_token);
             localStorage.setItem('access_token', data.access_token);
         } catch (error) {
-            console.error('Token refresh error:', error);
             //todo: add proper error handling
+            console.error('Token refresh error:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }

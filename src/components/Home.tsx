@@ -1,8 +1,6 @@
-import {post} from "../utilities/fetch";
-import {login, loginHandler} from "../operations/authOperation";
 import React, {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from "./AutoContext";
+import {useAuth} from "./AuthContext";
 import Header from "./Header";
 
 export default function Home() {
@@ -16,9 +14,17 @@ export default function Home() {
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await login(formData.username, formData.password);
-        navigate('/movies');
+        debugger
+        try {
+            await login(formData.username, formData.password);
+        } catch {
+            console.log("catch block")
+            return;
+        }
+        console.log("moved on anyway")
+        // navigate('/movies');
     }
+
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
