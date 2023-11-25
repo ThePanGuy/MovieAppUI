@@ -27,18 +27,6 @@ export const register = async (username: string, password: string) => {
     }
 }
 
-
-export const loginHandler = async (username: string, password: string) => {
-    try {
-        const data = await login(username, password);
-        // setToken(data.token);
-        localStorage.setItem('access_token', data.access_token);
-    } catch (error) {
-        console.error('Login error:', error);
-    }
-};
-
-
 export const refreshToken = async (refreshToken: string | null) => {
     const response = await fetch(`${Constants.getApiUrl()}/refresh-token`, {
         method: 'POST',

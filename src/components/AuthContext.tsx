@@ -1,10 +1,10 @@
-import React, {createContext, ReactNode, useContext, useState} from 'react';
+import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {login, refreshToken} from "../operations/authOperation";
 
 interface AuthContextProps {
     access_token: string | null;
     login: (username: string, password: string) => void;
-    refresh_token: () => void;
+    refreshToken: () => void;
     logout: () => void;
     isLoading: boolean;
 }
@@ -16,7 +16,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [access_token, setAccess_token] = useState(localStorage.getItem('token') || null);
+    const [access_token, setAccess_token] = useState(localStorage.getItem('access_token') || null);
+    const [refresh_token, setRefresh_token] = useState(localStorage.getItem('refresh_token') || null);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -25,7 +26,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setIsLoading(true);
             const data = await login(username, password);
             setAccess_token(data.access_token);
+            setRefresh_token(data.refresh_token);
             localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
         } catch (error) {
             //todo: add proper error handling
             console.error('Login error:', error);
@@ -38,7 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const refreshTokenHandler = async () => {
         try {
             setIsLoading(true);
-            const data = await refreshToken(localStorage.getItem('refreshToken'));
+            const data = await refreshToken(refresh_token);
             setAccess_token(data.access_token);
             localStorage.setItem('access_token', data.access_token);
         } catch (error) {
@@ -52,7 +55,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logoutHandler = () => {
         setAccess_token(null);
+        setRefresh_token(null);
         localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
     };
 
     return (
@@ -60,16 +65,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             value={{
                 access_token,
                 login: loginHandler,
-                refresh_token: refreshTokenHandler,
+                refreshToken: refreshTokenHandler,
                 logout: logoutHandler,
                 isLoading
             }}
-        >
-            {children}
+        >{children}
         </AuthContext.Provider>
     );
 };
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+
+    //todo: add useEffect to refresh token when expired
+    // useEffect(() => {
+    //     if (context.access_token && isTokenExpired(context.access_token)) {
+    //         context.refresh_token();
+    //     }
+    // }, [context]);
+
+    return context;
 };
