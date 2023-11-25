@@ -14,7 +14,8 @@ export default function Home() {
     const submit = (e:  React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         loginHandler(formData.username, formData.password)
-            .then(() => navigate('/movies'));
+            .then(() => navigate('/movies'))
+            .catch(reason => console.log(reason));
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +32,7 @@ export default function Home() {
             <form onSubmit={submit}>
                 <input name={'username'} type={'text'} value={formData.username} onChange={handleChange} placeholder={'Username'}/>
                 <input name={'password'} type={'password'} value={formData.password} onChange={handleChange} placeholder={'Password'}/>
-                <button type={'submit'}>Login</button>
+                <button>Login</button>
             </form>
         </>
     )
