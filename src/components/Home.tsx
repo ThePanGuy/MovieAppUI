@@ -2,8 +2,10 @@ import {post} from "../utilities/fetch";
 import {login, loginHandler} from "../operations/authOperation";
 import React, {ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "./AutoContext";
 
 export default function Home() {
+    const { login } = useAuth()!;
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -11,11 +13,10 @@ export default function Home() {
         password: ''
     })
 
-    const submit = (e:  React.FormEvent<HTMLFormElement>) => {
+    const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        loginHandler(formData.username, formData.password)
-            .then(() => navigate('/movies'))
-            .catch(reason => console.log(reason));
+        await login(formData.username, formData.password);
+        navigate('/movies');
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

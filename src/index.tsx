@@ -6,27 +6,30 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
+import {AuthProvider} from "./components/AutoContext";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home/>,
-        errorElement: <ErrorPage/>
-    },
-    {
-        path: "/movies",
-        element: <App/>
-    }
-])
+        {
+            path: "/",
+            element: <Home/>,
+            errorElement: <ErrorPage/>
+        },
+        {
+            path: "/movies",
+            element: <App/>
+        }
+    ])
 ;
 
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <AuthProvider>
+            <RouterProvider router={router}/>
+        </AuthProvider>
     </React.StrictMode>
 );
 
