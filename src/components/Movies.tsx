@@ -6,9 +6,6 @@ import RenderPaging from "./RenderPaging";
 
 const Movies: React.FunctionComponent = () => {
     const paging = usePaging<MoviePage>('/movie/page', 12, 0);
-    useEffect(() => {
-        console.log(paging.response)
-    }, [paging])
 
     return (
         <div>

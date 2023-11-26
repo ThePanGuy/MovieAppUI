@@ -46,7 +46,7 @@ export function SignUpPage() {
 
     return (
         <>
-            <Header/>
+            <Header loggedIn={false}/>
             <form onSubmit={submit}>
                 <input name={'username'} type={'text'} value={formData.username} onChange={handleChange} placeholder={'Username'}/>
                 <input name={'password'} type={'password'} value={formData.password} onChange={handleChange} placeholder={'Password'}/>
