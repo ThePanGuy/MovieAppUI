@@ -1,4 +1,5 @@
 import {Constants} from "./constants";
+import {refreshToken} from "../operations/authOperation";
 
 interface CustomResponse {
     status: number,
@@ -11,7 +12,10 @@ function getAuthToken(): string | null {
 }
 
 export function get<T>(uri: string): Promise<T | any> {
-    return new Promise((resolve, reject) => fetch(Constants.getApiUrl() + uri, headers('GET'))
+    const request = new Request(Constants.getApiUrl() + uri, headers('GET'));
+    const refreshRequest = new Request(Constants.getApiUrl() + uri, headers('GET'));
+    return new Promise((resolve, reject) => fetch(request)
+        .then(response => handleRefreshToken(response, refreshRequest))
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
@@ -24,7 +28,11 @@ export function get<T>(uri: string): Promise<T | any> {
 }
 
 export async function post<T>(uri: string, data: any): Promise<T | any> {
-    return new Promise((resolve, reject) => fetch(Constants.getApiUrl() + uri, headers('POST', JSON.stringify(data)))
+    const request = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
+    const refreshRequest = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
+    debugger
+    return new Promise((resolve, reject) => fetch(request)
+        .then(response => handleRefreshToken(response, refreshRequest))
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
@@ -50,6 +58,21 @@ function headers(method: string, data?: any): RequestInit {
         redirect: 'follow', // manual, *follow, error
         referrer: 'client', // *client, no-referrer,
     }
+}
+
+async function handleRefreshToken(response: Response, request: Request) {
+    if (response.status === 403 && getAuthToken()) {
+        try {
+            const data = await refreshToken(localStorage.getItem('refresh_token'));
+            localStorage.setItem('access_token', data.access_token);
+            request.headers.set('Authorization', `Bearer ${data.access_token}`);
+            const res = await fetch(request)
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    }
+    return response;
 }
 
 function parseResponse(response: Response): Promise<CustomResponse> {

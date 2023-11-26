@@ -28,17 +28,17 @@ export const register = async (username: string, password: string) => {
 }
 
 export const refreshToken = async (refreshToken: string | null) => {
-    const response = await fetch(`${Constants.getApiUrl()}/refresh-token`, {
-        method: 'POST',
+    const response = await fetch(`${Constants.getApiUrl()}/user/token/refresh`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({refreshToken}),
+            Authorization: refreshToken ? `Bearer ${refreshToken}` : ''
+        }
     });
 
     if (!response.ok) {
         throw new Error('Token refresh failed');
     }
-
+    console.log('Token refreshed');
     return await response.json();
 };
