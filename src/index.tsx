@@ -4,11 +4,12 @@ import './index.css';
 import MoviesPage from './components/MoviesPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./components/error_pages/ErrorPage";
 import Home from "./components/Home";
 import {AuthProvider} from "./components/AuthContext";
-import {SignUpPage} from "./components/SignUpPage";
-import {NoAccessPage} from "./components/NoAccessPage";
+import {SignUpPage} from "./components/login_pages/SignUpPage";
+import {NoAccessPage} from "./components/error_pages/NoAccessPage";
+import LoginPage from "./components/login_pages/LoginPage";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -21,8 +22,8 @@ const router = createBrowserRouter([
             errorElement: <ErrorPage/>
         },
         {
-            path: "/movies",
-            element: <MoviesPage/>
+            path: '/login',
+            element: <LoginPage/>
         },
         {
             path: "/sign-up",

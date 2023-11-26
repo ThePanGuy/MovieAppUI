@@ -1,38 +1,29 @@
-import Header from "./Header";
 import React, {ChangeEvent, useState} from "react";
-import {register} from "../operations/authOperation";
-import {useAuth} from "./AuthContext";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../AuthContext";
+import Header from "../Header";
 
-export function SignUpPage() {
-    const auth = useAuth();
+export default function LoginPage() {
+    const { login } = useAuth()!;
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
     })
-
-    const [error, setError] = useState<string | null>(null);
-
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+        try {
+            await login(formData.username, formData.password);
+        } catch {
+            console.log("catch block")
             return;
         }
-
-        try {
-            await register(formData.username, formData.password);
-
-            await auth?.login(formData.username, formData.password);
-
-            navigate('/movies');
-        } catch (error) {
-            setError('Registration failed. Please try again.');
-        }
+        console.log("moved on anyway")
+        navigate('/movies');
     }
+
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -40,9 +31,7 @@ export function SignUpPage() {
             ...prevState,
             [name]: value
         }));
-        setError(null);
     }
-
 
     return (
         <>
@@ -50,10 +39,8 @@ export function SignUpPage() {
             <form onSubmit={submit}>
                 <input name={'username'} type={'text'} value={formData.username} onChange={handleChange} placeholder={'Username'}/>
                 <input name={'password'} type={'password'} value={formData.password} onChange={handleChange} placeholder={'Password'}/>
-                <input name={'confirmPassword'} type={'password'} value={formData.confirmPassword} onChange={handleChange} placeholder={'Confirm Password'}/>
                 <button>Login</button>
             </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
         </>
     )
 }
