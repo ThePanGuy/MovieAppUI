@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../AuthContext";
 import Header from "../Header";
 
 export default function LoginPage() {
-    const { login } = useAuth()!;
+    const { getToken, login } = useAuth()!;
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -12,16 +12,20 @@ export default function LoginPage() {
         password: ''
     })
 
+    useEffect(() => {
+        if (getToken()) {
+            navigate('/')
+        }
+    }, [getToken, navigate]);
+
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             await login(formData.username, formData.password);
         } catch {
-            console.log("catch block")
             return;
         }
-        console.log("moved on anyway")
-        navigate('/movies');
+        navigate('/');
     }
 
 

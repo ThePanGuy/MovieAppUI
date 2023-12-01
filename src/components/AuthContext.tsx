@@ -2,7 +2,7 @@ import React, {createContext, ReactNode, useContext, useEffect, useState} from '
 import {login, refreshToken} from "../operations/authOperation";
 
 interface AuthContextProps {
-    access_token: string | null;
+    getToken: () => string | null;
     login: (username: string, password: string) => void;
     refreshToken: () => void;
     logout: () => void;
@@ -20,6 +20,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [refresh_token, setRefresh_token] = useState(localStorage.getItem('refresh_token') || null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const getToken = () => {
+        return localStorage.getItem('access_token');
+    }
 
     const loginHandler = async (username: string, password: string) => {
         try {
@@ -63,7 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return (
         <AuthContext.Provider
             value={{
-                access_token,
+                getToken: getToken,
                 login: loginHandler,
                 refreshToken: refreshTokenHandler,
                 logout: logoutHandler,

@@ -68,3 +68,12 @@
   font-weight: 500;
   margin-right: 10rem;
 }
+
+.link-button {
+  background: none;
+  border: none;
+  color: blue; /* or the color you prefer */
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: inherit;
+}

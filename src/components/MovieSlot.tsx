@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {MovieReactions, User} from "../models/model";
 import {addHate, addLike} from "../operations/operation";
+import {useAuth} from "./AuthContext";
 
 interface Props {
     id?: string,
@@ -15,8 +16,6 @@ interface Props {
 const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
                                                        description, creationDate,
                                                        likes, hates}) => {
-
-
     const [passedDays, setPassedDays] = useState<number>(0)
     const [numberOfLikes, setNumberOfLikes] = useState(likes);
     const [numberOfHates, setNumberOfHates] = useState(hates);
@@ -61,7 +60,9 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
                 <h2>{title}</h2>
                 <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
                 <p>{description}</p>
-                <p>{numberOfLikes} <a onClick={likeMovie}>likes</a> | {numberOfHates} <a onClick={hateMovie}>hates</a></p>
+                <p>{numberOfLikes}
+                    <button className={'link-button'} onClick={likeMovie}>likes</button> | {numberOfHates}
+                    <button className={'link-button'} onClick={hateMovie}>hates</button></p>
             </div>
         </React.Fragment>
     )
