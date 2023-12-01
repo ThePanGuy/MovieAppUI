@@ -18,7 +18,6 @@ export const login = async (username: string, password: string) => {
 
 
 export const register = async (username: string, password: string) => {
-    debugger
     try {
         const response = await post('/user/save', {username, password});
         return response.data;
