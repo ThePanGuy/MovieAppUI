@@ -30,7 +30,6 @@ export function get<T>(uri: string): Promise<T | any> {
 export async function post<T>(uri: string, data: any): Promise<T | any> {
     const request = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
     const refreshRequest = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
-    debugger
     return new Promise((resolve, reject) => fetch(request)
         .then(response => handleRefreshToken(response, refreshRequest))
         .then(parseResponse)
@@ -84,9 +83,7 @@ function parseResponse(response: Response): Promise<CustomResponse> {
                 } else if (response.status === 404) {
                     document.location.href = '/error-not-found'
                 } else if (response.status === 401) {
-                    if (!(window.location.href.indexOf("login") > -1)) {
-                        document.location.href = '/login'
-                    }
+                    document.location.href = '/error-no-access'
                 } else if (response.status === 426) {
                     resolve({
                         status: response.status,
