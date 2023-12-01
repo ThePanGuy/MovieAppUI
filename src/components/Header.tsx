@@ -2,6 +2,7 @@ import React from 'react';
 import {useAuth} from "./AuthContext";
 import {useNavigate} from "react-router-dom";
 
+
 interface Props {
     loggedIn?: boolean
 }
@@ -26,10 +27,10 @@ const Header: React.FunctionComponent<Props> = ({loggedIn = true}) => {
     }
 
     return (
-        <div className={'header'}>
+        <header className={'header'}>
             <h1 className={'header-title'}>MovieRama</h1>
             {headerActions()}
-        </div>
+        </header>
     )
 };
 
