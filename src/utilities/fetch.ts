@@ -1,4 +1,5 @@
 import {Constants} from "./constants";
+import {refreshToken} from "../operations/authOperation";
 
 interface CustomResponse {
     status: number,
@@ -6,8 +7,15 @@ interface CustomResponse {
     json: { message: String }
 }
 
+function getAuthToken(): string | null {
+    return localStorage.getItem('access_token');
+}
+
 export function get<T>(uri: string): Promise<T | any> {
-    return new Promise((resolve, reject) => fetch(Constants.getApiUrl() + uri, headers('GET'))
+    const request = new Request(Constants.getApiUrl() + uri, headers('GET'));
+    const refreshRequest = new Request(Constants.getApiUrl() + uri, headers('GET'));
+    return new Promise((resolve, reject) => fetch(request)
+        .then(response => handleRefreshToken(response, refreshRequest))
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
@@ -20,7 +28,10 @@ export function get<T>(uri: string): Promise<T | any> {
 }
 
 export async function post<T>(uri: string, data: any): Promise<T | any> {
-    return new Promise((resolve, reject) => fetch(Constants.getApiUrl() + uri, headers('POST', JSON.stringify(data)))
+    const request = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
+    const refreshRequest = new Request(Constants.getApiUrl() +uri, headers('POST', JSON.stringify(data)));
+    return new Promise((resolve, reject) => fetch(request)
+        .then(response => handleRefreshToken(response, refreshRequest))
         .then(parseResponse)
         .then((response: CustomResponse) => {
             if (response.ok) {
@@ -38,13 +49,29 @@ function headers(method: string, data?: any): RequestInit {
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'omit', // include, same-origin, *omit
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            Authorization: getAuthToken() ? `Bearer ${getAuthToken()}` : ''
         },
         method: method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
         redirect: 'follow', // manual, *follow, error
-        referrer: 'client', // *client, no-referrer
+        referrer: 'client', // *client, no-referrer,
     }
+}
+
+async function handleRefreshToken(response: Response, request: Request) {
+    if (response.status === 403 && getAuthToken()) {
+        try {
+            const data = await refreshToken(localStorage.getItem('refresh_token'));
+            localStorage.setItem('access_token', data.access_token);
+            request.headers.set('Authorization', `Bearer ${data.access_token}`);
+            const res = await fetch(request)
+            return res;
+        } catch (error) {
+            throw error;
+        }
+    }
+    return response;
 }
 
 function parseResponse(response: Response): Promise<CustomResponse> {
@@ -52,14 +79,11 @@ function parseResponse(response: Response): Promise<CustomResponse> {
         response.json()
             .then((json: any) => {
                 if (response.status === 403) {
-                    document.location.href = '/error-no-access'
+                    document.location.href = '/login'
                 } else if (response.status === 404) {
                     document.location.href = '/error-not-found'
                 } else if (response.status === 401) {
-                    // deleteCookie();
-                    if (!(window.location.href.indexOf("login") > -1)) {
-                        document.location.href = '/login'
-                    }
+                    document.location.href = '/error-no-access'
                 } else if (response.status === 426) {
                     resolve({
                         status: response.status,

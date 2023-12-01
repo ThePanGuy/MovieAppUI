@@ -105,7 +105,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
                     }
                 })
                 .catch((message) => {
-                    window.alert(message);
+                    console.log(message);
                     // openToast(message, toast.TYPE.ERROR);
                 }).finally(() => setIsFetching(false));
         }

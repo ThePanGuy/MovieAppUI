@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
-import Header from "./components/Header";
-import Movies from "./components/Movies";
+import Header from "./Header";
+import Movies from "./Movies";
 
-function App() {
+//todo deprecated, remove
+function MoviesPage() {
     return (
         <div className="App">
             <header>
@@ -16,4 +16,4 @@ function App() {
     );
 }
 
-export default App;
+export default MoviesPage;
