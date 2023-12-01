@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {usePaging} from "../hooks/PagingHook";
 import {MoviePage} from "../models/model";
 import MovieCard from "./MovieSlot";
