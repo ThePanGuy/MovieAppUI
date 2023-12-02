@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {MovieReactions, User} from "../models/model";
 import {addHate, addLike} from "../operations/operation";
-import {useAuth} from "./AuthContext";
 
 interface Props {
     id?: string,
     title?: string
     uploadedBy?: User
     description?: string
-    creationDate?: string
+    creationDate?: string,
+    authenticated?: boolean,
     likes?: number
     hates?: number
 }
 
-const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
-                                                       description, creationDate,
-                                                       likes, hates}) => {
+const MovieSlot: React.FunctionComponent<Props> = ({
+                                                       id, title, uploadedBy,
+                                                       description, creationDate, authenticated = false,
+                                                       likes, hates
+                                                   }) => {
     const [passedDays, setPassedDays] = useState<number>(0)
     const [numberOfLikes, setNumberOfLikes] = useState(likes);
     const [numberOfHates, setNumberOfHates] = useState(hates);
@@ -53,6 +55,18 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
         }
     }
 
+    const decideLikesP = () => {
+        if (authenticated) {
+            return <p>{numberOfLikes}
+                <button className={'link-button'} onClick={likeMovie}>likes</button>
+                | {numberOfHates}
+                <button className={'link-button'} onClick={hateMovie}>hates</button>
+            </p>
+        } else {
+            return <p>{numberOfLikes} Likes | {numberOfHates} Hates</p>
+        }
+    }
+
 
     return (
         <React.Fragment>
@@ -60,9 +74,7 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
                 <h2>{title}</h2>
                 <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
                 <p>{description}</p>
-                <p>{numberOfLikes}
-                    <button className={'link-button'} onClick={likeMovie}>likes</button> | {numberOfHates}
-                    <button className={'link-button'} onClick={hateMovie}>hates</button></p>
+                {decideLikesP()}
             </div>
         </React.Fragment>
     )

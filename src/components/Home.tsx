@@ -6,7 +6,7 @@ export default function Home() {
 
     return (
         <div className="App">
-                <Header/>
+                <Header loggedIn={false}/>
             <div>
                 <Movies/>
             </div>

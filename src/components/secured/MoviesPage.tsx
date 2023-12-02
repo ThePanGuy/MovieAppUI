@@ -1,14 +1,13 @@
 import React from 'react';
-import Header from "./Header";
-import Movies from "./Movies";
+import Header from "../Header";
+import Movies from "../Movies";
 
-//todo deprecated, remove
 function MoviesPage() {
+
+
     return (
         <div className="App">
-            <header>
-                <Header/>
-            </header>
+            <Header/>
             <div>
                 <Movies/>
             </div>
