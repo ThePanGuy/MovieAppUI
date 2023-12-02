@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from "../Header";
-import Movies from "../Movies";
+import SecuredMovies from "./SecuredMovies";
 
 function MoviesPage() {
 
@@ -9,7 +9,7 @@ function MoviesPage() {
         <div className="App">
             <Header/>
             <div>
-                <Movies/>
+                <SecuredMovies/>
             </div>
         </div>
     );

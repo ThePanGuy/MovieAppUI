@@ -19,7 +19,7 @@ export default function LoginPage() {
         } catch {
             return;
         }
-        navigate('/');
+        navigate('/secured');
     }
 
 
