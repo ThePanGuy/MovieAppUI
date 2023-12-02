@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from "../Header";
 import SecuredMovies from "./SecuredMovies";
+import Actions from "./Actions";
 
 function MoviesPage() {
 
@@ -10,6 +11,7 @@ function MoviesPage() {
             <Header/>
             <div>
                 <SecuredMovies/>
+                <Actions/>
             </div>
         </div>
     );
