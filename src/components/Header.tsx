@@ -22,7 +22,7 @@ const Header: React.FunctionComponent<Props> = ({loggedIn = true}) => {
         if (loggedIn) {
             return <a href={"/"} className={'header-log-out'} onClick={logout}>Log Out</a>;
         } else {
-            return <p className={'header-log-in'}>Log In or <a href="/sign-up">Sign Up</a></p>;
+            return <p className={'header-log-in'}><a href='/login'>Log In</a> or <a href="/sign-up">Sign Up</a></p>;
         }
     }
 

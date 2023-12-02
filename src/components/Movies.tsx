@@ -5,7 +5,7 @@ import MovieCard from "./MovieSlot";
 import RenderPaging from "./RenderPaging";
 
 const Movies: React.FunctionComponent = () => {
-    const paging = usePaging<MoviePage>('/movie/page', 12, 0);
+    const paging = usePaging<MoviePage>('/home/movies', 12, 0);
 
     return (
         <div>
