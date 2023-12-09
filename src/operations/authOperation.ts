@@ -36,7 +36,7 @@ export const refreshToken = async (refreshToken: string | null) => {
     });
 
     if (!response.ok) {
-        throw new Error('Token refresh failed');
+        throw response;
     }
     console.log('Token refreshed');
     return await response.json();
