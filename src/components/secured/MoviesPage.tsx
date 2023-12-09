@@ -9,8 +9,8 @@ function MoviesPage() {
     return (
         <div className="App">
             <Header/>
-            <div>
-                <SecuredMovies/>
+            <div className={'main'}>
+                <SecuredMovies />
                 <Actions/>
             </div>
         </div>

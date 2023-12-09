@@ -26,12 +26,12 @@ const Actions: React.FC<Props> = ({authenticated = false}) => {
 
 
     return (
-        <>
+        <div className={'side-actions'}>
             <button onClick={openModal}>
                 New Movie
             </button>
             <AddMovieModal isOpen={isModalOpen} onClose={closeModal}/>
-        </>
+        </div>
     );
 };
 
