@@ -1,6 +1,7 @@
 import React from 'react';
 import MovieForm from "./MovieForm";
 import useKeyHandler from "../../hooks/KeyHandlerHook";
+import {addMovie} from "../../operations/operation";
 
 interface Props {
     isOpen: boolean
@@ -10,6 +11,11 @@ interface Props {
 const AddMovieModal: React.FC<Props> = ({isOpen, onClose}) => {
     useKeyHandler('Escape', onClose);
 
+    const onSubmit = (title: string, description: string) => {
+        addMovie(title, description)
+            .then(() => onClose)
+            .catch(() => console.error('Could not create movie'));
+    }
 
     return (
         <div className={'modal' + (isOpen ? ' is-active' : '')}>
@@ -19,7 +25,7 @@ const AddMovieModal: React.FC<Props> = ({isOpen, onClose}) => {
                     <p className={'modal-card-title'}>Add Movie</p>
                 </header>
                 <section className={'modal-card-body'}>
-                    <MovieForm/>
+                    <MovieForm onSubmit={onSubmit}/>
                 </section>
                 <footer className={'modal-card-foot'}>
                     <div>
