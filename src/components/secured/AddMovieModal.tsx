@@ -13,7 +13,7 @@ const AddMovieModal: React.FC<Props> = ({isOpen, onClose}) => {
 
     return (
         <div className={'modal' + (isOpen ? ' is-active' : '')}>
-            <div className={'modal-background'}/>
+            <div className={'modal-background'} onClick={onClose}/>
             <div className={'modal-card'}>
                 <header className={'modal-card-head'}>
                     <p className={'modal-card-title'}>Add Movie</p>
