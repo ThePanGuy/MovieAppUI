@@ -1,5 +1,6 @@
 import React from 'react';
 import MovieForm from "./MovieForm";
+import useKeyHandler from "../../hooks/KeyHandlerHook";
 
 interface Props {
     isOpen: boolean
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const AddMovieModal: React.FC<Props> = ({isOpen, onClose}) => {
+    useKeyHandler('Escape', onClose);
 
 
     return (
