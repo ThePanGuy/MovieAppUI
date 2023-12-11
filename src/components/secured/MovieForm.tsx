@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 interface MovieFormProps {
     onSubmit: (title: string, description: string) => void;
 }
 
-const MovieForm: React.FC<MovieFormProps> = ({ onSubmit }) => {
+const MovieForm: React.FC<MovieFormProps> = ({onSubmit}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
@@ -28,14 +28,14 @@ const MovieForm: React.FC<MovieFormProps> = ({ onSubmit }) => {
         <form onSubmit={handleSubmit}>
             <label>
                 Title:
-                <input type="text" value={title} onChange={handleTitleChange} required />
+                <input type="text" value={title} onChange={handleTitleChange} required/>
             </label>
-            <br />
+            <br/>
             <label>
                 Description:
-                <input type="text" value={description} onChange={handleDescriptionChange} required />
+                <input type="text" value={description} onChange={handleDescriptionChange} required/>
             </label>
-            <br />
+            <br/>
             <button type="submit">Submit</button>
         </form>
     );

@@ -14,7 +14,7 @@ const AddMovieModal: React.FC<Props> = ({isOpen, onClose}) => {
     const onSubmit = (title: string, description: string) => {
         addMovie(title, description)
             .then(() => onClose)
-            .catch(() => console.error('Could not create movie'));
+            .catch(() => console.log('Could not create movie'));
     }
 
     return (

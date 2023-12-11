@@ -19,7 +19,7 @@ export const addHate = (movieId: string): Promise<MovieReactions> => {
 
 export const addMovie = (title: string, description: string) => {
     return new Promise<any>((resolve, reject) => {
-        post('secured/movie/add', {title, description})
+        post('/secured/movie/add', {title, description})
             .then(resolve)
             .catch(reject);
     })
