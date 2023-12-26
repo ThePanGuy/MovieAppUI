@@ -2,6 +2,7 @@ import React from 'react';
 import Header from "../Header";
 import SecuredMovies from "./SecuredMovies";
 import Actions from "./Actions";
+import Sorting from "./Sorting";
 
 function MoviesPage() {
 
@@ -10,8 +11,11 @@ function MoviesPage() {
         <div className="App">
             <Header/>
             <div className={'main'}>
-                <SecuredMovies />
-                <Actions/>
+                <Sorting/>
+                <div className={"flex-container"}>
+                    <SecuredMovies/>
+                    <Actions/>
+                </div>
             </div>
         </div>
     );
