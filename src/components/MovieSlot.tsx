@@ -9,14 +9,15 @@ interface Props {
     description?: string
     creationDate?: string,
     authenticated?: boolean,
-    likes?: number
-    hates?: number
+    likes?: number,
+    hates?: number,
+    action?: (id: string) => void
 }
 
 const MovieSlot: React.FunctionComponent<Props> = ({
                                                        id, title, uploadedBy,
                                                        description, creationDate, authenticated = false,
-                                                       likes, hates
+                                                       likes, hates, action
                                                    }) => {
     const [passedDays, setPassedDays] = useState<number>(0)
     const [numberOfLikes, setNumberOfLikes] = useState(likes);
@@ -67,12 +68,16 @@ const MovieSlot: React.FunctionComponent<Props> = ({
         }
     }
 
+    const handleUploadedBy = () => {
+        uploadedBy?.id && action && action(uploadedBy?.id);
+    }
+
 
     return (
         <React.Fragment>
             <div className={'movie-card'}>
                 <h2>{title}</h2>
-                <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
+                <span>Posted by<button className={'link-button'} onClick={handleUploadedBy}>{uploadedBy?.username}</button> {passedDays} day(s) ago</span>
                 <p>{description}</p>
                 {decideLikesP()}
             </div>

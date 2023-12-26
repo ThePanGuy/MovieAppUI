@@ -20,7 +20,7 @@ export interface PagingResponse<T> {
 }
 
 export interface Filter {
-    singleValueFilterItems: SingleValueFilterItem[]
+    filterItems: SingleValueFilterItem[]
 }
 
 export interface Order {
@@ -35,6 +35,7 @@ export interface SingleValueFilterItem {
 
 export interface PagingHandler<T> {
     filter: any,
+    // filters: any,
     removeFilter: any,
     sort: any,
     response: PagingResponse<T> | undefined,
@@ -165,18 +166,35 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
 
         if (!r.filter)
             r.filter = new class implements Filter {
-                singleValueFilterItems: SingleValueFilterItem[] = [];
+                filterItems: SingleValueFilterItem[] = [];
             }();
 
-        const item: SingleValueFilterItem = findOrCreate(r.filter.singleValueFilterItems, filter.name);
+        const item: SingleValueFilterItem = findOrCreate(r.filter.filterItems, filter.name);
         item.value = filter.value;
-
+        debugger;
         setPageRequest(r);
     };
 
+    // const filters = (filters: SingleValueFilterItem[]) => {
+    //     const r: PagingRequest = {...pageRequest};
+    //     if (valuesHaveChanged(filters, r)) {
+    //         r.page = 0;
+    //         r.size = pageSize;
+    //     }
+    //     if (!r.filter)
+    //         r.filter = new class implements Filter {
+    //             filterItems: SingleValueFilterItem[] = [];
+    //         }();
+    //     filters.forEach(f => {
+    //         const item: SingleValueFilterItem = findOrCreate(r.filter!.filterItems, f.name);
+    //         item.value = f.value;
+    //     });
+    //     setPageRequest(r);
+    // };
+    //
     // const valuesHaveChanged = (filters: SingleValueFilterItem[], r: PagingRequest): boolean => {
-    //     if (r.filter?.singleValueFilterItems) {
-    //         let previousFilters = r.filter.singleValueFilterItems;
+    //     if (r.filter?.filterItems) {
+    //         let previousFilters = r.filter.filterItems;
     //         for (let i = 0, length = filters.length; i < length; i++) {
     //             let currentFilter = filters[i];
     //             let filterNameFound = false;
@@ -210,10 +228,10 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
     };
 
     const removeFilter = (name: string) => {
-        if (pageRequest.filter && pageRequest.filter.singleValueFilterItems) {
+        if (pageRequest.filter && pageRequest.filter.filterItems) {
             const r: PagingRequest = {...pageRequest};
-            const idx = r.filter!.singleValueFilterItems.findIndex(s => s.name === name);
-            if (idx > -1) r.filter!.singleValueFilterItems.splice(idx, 1);
+            const idx = r.filter!.filterItems.findIndex(s => s.name === name);
+            if (idx > -1) r.filter!.filterItems.splice(idx, 1);
             setPageRequest(r);
         }
     };
@@ -240,8 +258,8 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
     };
 
     const findFilter = (name: string) => {
-        if (pageRequest.filter && pageRequest.filter.singleValueFilterItems) {
-            return pageRequest.filter!.singleValueFilterItems.find(f => f.name === name);
+        if (pageRequest.filter && pageRequest.filter.filterItems) {
+            return pageRequest.filter!.filterItems.find(f => f.name === name);
         }
         return null;
     };
@@ -254,6 +272,7 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
         nextPage: handleNextPage,
         gotoPage: handlePageChange,
         filter: filter,
+        // filters: filters,
         removeFilter: removeFilter,
         reset: reset,
         hasOrder: hasOrder,
