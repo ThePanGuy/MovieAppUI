@@ -11,13 +11,13 @@ interface Props {
     authenticated?: boolean,
     likes?: number,
     hates?: number,
-    action?: (id: string) => void
+    uploadedByFilter?: (id: string) => void
 }
 
 const MovieSlot: React.FunctionComponent<Props> = ({
                                                        id, title, uploadedBy,
                                                        description, creationDate, authenticated = false,
-                                                       likes, hates, action
+                                                       likes, hates, uploadedByFilter
                                                    }) => {
     const [passedDays, setPassedDays] = useState<number>(0)
     const [numberOfLikes, setNumberOfLikes] = useState(likes);
@@ -69,7 +69,7 @@ const MovieSlot: React.FunctionComponent<Props> = ({
     }
 
     const handleUploadedBy = () => {
-        uploadedBy?.id && action && action(uploadedBy?.id);
+        uploadedBy?.id && uploadedByFilter && uploadedByFilter(uploadedBy?.id);
     }
 
 
