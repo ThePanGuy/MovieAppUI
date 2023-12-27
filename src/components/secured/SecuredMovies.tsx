@@ -1,16 +1,17 @@
-import {SingleValueFilterItem, usePaging} from "../../hooks/PagingHook";
+import {PagingHandler, SingleValueFilterItem, usePaging} from "../../hooks/PagingHook";
 import {MoviePage} from "../../models/model";
 import React from "react";
 import RenderPaging from "../RenderPaging";
 import MovieSlot from "../MovieSlot";
 
+interface Props {
+    paging: PagingHandler<MoviePage>
+}
 
-const SecuredMovies: React.FunctionComponent = () => {
-    const paging = usePaging<MoviePage>('/secured/movie/page', 12, 0);
+const SecuredMovies: React.FunctionComponent<Props> = ({paging}) => {
 
     const uploadedBy = (id: string) => {
         const filter: SingleValueFilterItem = {name: 'uploadedBy', value: id}
-        debugger
         paging.filter(filter)
     }
 

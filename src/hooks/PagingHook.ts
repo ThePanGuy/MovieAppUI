@@ -171,7 +171,6 @@ export const usePaging = <T>(url: string, pageSize: number, initialPage: number 
 
         const item: SingleValueFilterItem = findOrCreate(r.filter.filterItems, filter.name);
         item.value = filter.value;
-        debugger;
         setPageRequest(r);
     };
 
