@@ -19,7 +19,7 @@ export const login = async (username: string, password: string) => {
 
 export const register = async (username: string, password: string) => {
     try {
-        const response = await post('/user/save', {username, password});
+        const response = await post('home/sign-up', {username, password});
         return response.data;
     } catch (error) {
         throw new Error('Registration failed');
@@ -27,7 +27,7 @@ export const register = async (username: string, password: string) => {
 }
 
 export const refreshToken = async (refreshToken: string | null) => {
-    const response = await fetch(`${Constants.getApiUrl()}/user/token/refresh`, {
+    const response = await fetch(`${Constants.getApiUrl()}/home/token/refresh`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const refreshToken = async (refreshToken: string | null) => {
     });
 
     if (!response.ok) {
-        throw new Error('Token refresh failed');
+        throw response;
     }
     console.log('Token refreshed');
     return await response.json();

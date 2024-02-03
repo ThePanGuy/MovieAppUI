@@ -68,6 +68,9 @@ async function handleRefreshToken(response: Response, request: Request) {
             const res = await fetch(request)
             return res;
         } catch (error) {
+            if (error instanceof Response) {
+                return error;
+            }
             throw error;
         }
     }

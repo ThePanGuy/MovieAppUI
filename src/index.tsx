@@ -10,6 +10,7 @@ import {AuthProvider} from "./components/AuthContext";
 import {SignUpPage} from "./components/login_pages/SignUpPage";
 import {NoAccessPage} from "./components/error_pages/NoAccessPage";
 import LoginPage from "./components/login_pages/LoginPage";
+import MoviesPage from "./components/secured/MoviesPage";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             path: "/",
             element: <Home/>,
             errorElement: <ErrorPage/>
+        },
+        {
+            path: "/secured",
+            element: <MoviesPage/>
         },
         {
             path: '/login',

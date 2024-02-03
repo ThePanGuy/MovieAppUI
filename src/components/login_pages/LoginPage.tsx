@@ -4,19 +4,13 @@ import {useAuth} from "../AuthContext";
 import Header from "../Header";
 
 export default function LoginPage() {
-    const { getToken, login } = useAuth()!;
+    const { login } = useAuth()!;
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     })
-
-    useEffect(() => {
-        if (getToken()) {
-            navigate('/')
-        }
-    }, [getToken, navigate]);
 
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,7 +19,7 @@ export default function LoginPage() {
         } catch {
             return;
         }
-        navigate('/');
+        navigate('/secured');
     }
 
 

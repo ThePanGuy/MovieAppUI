@@ -1,21 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {MovieReactions, User} from "../models/model";
 import {addHate, addLike} from "../operations/operation";
-import {useAuth} from "./AuthContext";
 
 interface Props {
     id?: string,
     title?: string
     uploadedBy?: User
     description?: string
-    creationDate?: string
-    likes?: number
-    hates?: number
+    creationDate?: string,
+    authenticated?: boolean,
+    likes?: number,
+    hates?: number,
+    uploadedByFilter?: (id: string) => void
 }
 
-const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
-                                                       description, creationDate,
-                                                       likes, hates}) => {
+const MovieSlot: React.FunctionComponent<Props> = ({
+                                                       id, title, uploadedBy,
+                                                       description, creationDate, authenticated = false,
+                                                       likes, hates, uploadedByFilter
+                                                   }) => {
     const [passedDays, setPassedDays] = useState<number>(0)
     const [numberOfLikes, setNumberOfLikes] = useState(likes);
     const [numberOfHates, setNumberOfHates] = useState(hates);
@@ -53,16 +56,30 @@ const MovieSlot: React.FunctionComponent<Props> = ({id,title, uploadedBy,
         }
     }
 
+    const decideLikesP = () => {
+        if (authenticated) {
+            return <p>{numberOfLikes}
+                <button className={'link-button'} onClick={likeMovie}>likes</button>
+                | {numberOfHates}
+                <button className={'link-button'} onClick={hateMovie}>hates</button>
+            </p>
+        } else {
+            return <p>{numberOfLikes} Likes | {numberOfHates} Hates</p>
+        }
+    }
+
+    const handleUploadedBy = () => {
+        uploadedBy?.id && uploadedByFilter && uploadedByFilter(uploadedBy?.id);
+    }
+
 
     return (
         <React.Fragment>
             <div className={'movie-card'}>
                 <h2>{title}</h2>
-                <span>Posted by {uploadedBy?.username} {passedDays} day(s) ago</span>
+                <span>Posted by<button className={'link-button'} onClick={handleUploadedBy}>{uploadedBy?.username}</button> {passedDays} day(s) ago</span>
                 <p>{description}</p>
-                <p>{numberOfLikes}
-                    <button className={'link-button'} onClick={likeMovie}>likes</button> | {numberOfHates}
-                    <button className={'link-button'} onClick={hateMovie}>hates</button></p>
+                {decideLikesP()}
             </div>
         </React.Fragment>
     )

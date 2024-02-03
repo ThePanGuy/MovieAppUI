@@ -22,13 +22,21 @@ const Header: React.FunctionComponent<Props> = ({loggedIn = true}) => {
         if (loggedIn) {
             return <a href={"/"} className={'header-log-out'} onClick={logout}>Log Out</a>;
         } else {
-            return <p className={'header-log-in'}>Log In or <a href="/sign-up">Sign Up</a></p>;
+            return <p className={'header-log-in'}><a href='/login'>Log In</a> or <a href="/sign-up">Sign Up</a></p>;
+        }
+    }
+
+    const home = () => {
+        if (loggedIn) {
+            window.location.href = '/secured';
+        } else {
+            window.location.href = '/';
         }
     }
 
     return (
         <header className={'header'}>
-            <h1 className={'header-title'}>MovieRama</h1>
+            <h1 className={'header-title'} style={{cursor: "pointer"}} onClick={home}>MovieRama</h1>
             {headerActions()}
         </header>
     )
