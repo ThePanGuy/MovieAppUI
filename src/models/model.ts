@@ -4,6 +4,8 @@ export interface MoviePage {
     description: string,
     creationDate: string,
     uploadedBy: User,
+    userId: string,
+    username: string,
     likes: number,
     hates: number
 }
